@@ -5,10 +5,10 @@ import path from 'path'
 const app = express()
 
 const port = ENV.PORT
-const __dirname=path.resolve()
+//const __dirname=path.resolve()
 
 app.get('/health', (req, res) => res.send('Hello World!'))
-app.get('', (req, res) => res.send('Hello!'))
+app.get('/', (req, res) => res.send('Hello!'))
 
 
 
