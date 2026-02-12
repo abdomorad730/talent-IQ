@@ -1,21 +1,31 @@
 import express, { json } from 'express'
 import { ENV } from './lib/env.js'
 import path from 'path'
+import connectDB from './lib/db.js'
 
 const app = express()
 
 const port = ENV.PORT
-const __dirname=path.resolve()
+const __dirname = path.resolve()
 
 app.get('/health', (req, res) => res.send('Hello World!'))
 app.get('/books', (req, res) => res.send('Hello!'))
 
 
 
-if (ENV.NODE_ENV=='production'){
-    app.use(express.static(path.join(__dirname,"../frontend/dist")))
-    app.get("/{*any}",(req,res)=>{
-        res.sendFile(path.join(__dirname,"../frontend","dist","index.html"))
+if (ENV.NODE_ENV == 'production') {
+    app.use(express.static(path.join(__dirname, "../frontend/dist")))
+    app.get("/{*any}", (req, res) => {
+        res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"))
     })
 }
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+
+const startServer = async () => {
+    try {
+        await connectDB()
+        app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+    } catch (error) {
+        console.error('Error starting the server',error)
+    }
+}
+startServer()
