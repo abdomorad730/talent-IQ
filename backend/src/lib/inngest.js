@@ -1,8 +1,8 @@
 import {Inngest} from 'inngest'
 import connectDB from './db.js'
 import User from '../models/Users.js'
-import e from 'express'
-export const inngest = new Inngest({ name: "Talant-IQ " });
+export const inngest = new Inngest({ name: "Talant-IQ ",  id: "talant-iq",
+ });
 const syncUser = inngest.createFunction(
     {id:'sync-user'},
     {event:'clerk/user.created'},
