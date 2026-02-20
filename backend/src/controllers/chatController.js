@@ -1,8 +1,8 @@
-import { streamClient } from "../lib/stream.js"
+import { chatClient } from "../lib/stream.js"
 
 export const getStreamToken = async (req, res) => {
     try {
-        const token = streamClient.createToken(req.user.clerkId)
+        const token = chatClient.createToken(req.user.clerkId)
         res.json({ token, userId: req.user.clerkId ,userName: req.user.name, userImage: req.user.imageProfile })
     } catch (error) {
         console.error(error)

@@ -7,6 +7,7 @@ import connectDB from './lib/db.js'
 import cors from 'cors'
 import { protectRoute } from './middleware/ProtectRoute.js'
 import chatRouter from './routes/chatRouter.js'
+import sessionRouter from './routes/sessionRouter.js'
 
 const app = express()
 
@@ -20,6 +21,8 @@ app.get('/', (req, res) => {
 })
 app.use('/api/inngest',serve({client:inngest, functions}))
 app.use('/api/chat', protectRoute, chatRouter)    
+app.use('/api/session', sessionRouter)    
+
 
 
 
