@@ -91,6 +91,9 @@ export const joinSession = async (req, res) => {
         if (!session) {
             return res.status(404).json({ message: 'Session not found' });
         }
+        if(session.status === 'completed'){
+            return res.status(400).json({ message: 'Cannot join a completed session' });
+        }
         if (session.participant) {
             return res.status(400).json({ message: 'Session already has a participant' });
         }
@@ -123,7 +126,7 @@ export const endSession = async (req, res) => {
         await session.save();
         const call= streamClient.video.call('default', session.callId)
         await call.delete({hard: true})
-        
+
         const channal=chatClient.channel('messaging', session.callId)
         await channal.delete()
 
