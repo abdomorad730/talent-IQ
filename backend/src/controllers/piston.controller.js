@@ -1,13 +1,12 @@
-export const PISTON_API = "https://emkc.org/api/v2/piston";
-
-export const LANGUAGE_VERSIONS = {
-  javascript: { language: "javascript", version: "18.15.0" },
-  python: { language: "python", version: "3.10.0" },
-  java: { language: "java", version: "15.0.2" },
-};
-export async function executeCode(req, res, next) {
+export default async function handler(req, res) {
   try {
     const { language, code } = req.body;
+
+    const LANGUAGE_CONFIG = {
+      javascript: { lang: "javascript", version: "18.15.0", ext: "js" },
+      python: { lang: "python", version: "3.10.0", ext: "py" },
+      java: { lang: "java", version: "15.0.2", ext: "java" },
+    };
 
     const config = LANGUAGE_CONFIG[language];
 
@@ -18,29 +17,35 @@ export async function executeCode(req, res, next) {
       });
     }
 
-    const response = await axios.post(PISTON_URL, {
-      language: config.lang,
-      version: config.version,
-      files: [
-        {
-          name: `main.${config.ext}`,
-          content: code,
-        },
-      ],
+    const response = await fetch("https://emkc.org/api/v2/piston/execute", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        language: config.lang,
+        version: config.version,
+        files: [
+          {
+            name: `main.${config.ext}`,
+            content: code,
+          },
+        ],
+      }),
+    });
+    console.log(response)
+    const data = await response.json();
+
+    return res.status(200).json({
+      success: !data.run.stderr,
+      output: data.run.stdout || "",
+      error: data.run.stderr || "",
     });
 
-    const run = response.data.run;
-
-    return res.json({
-      success: run.stderr ? false : true,
-      output: run.stdout || "",
-      error: run.stderr || "",
-    });
-    } catch (error) {
-    console.error("Error executing code:", error);
+  } catch (error) {
     return res.status(500).json({
       success: false,
-      error: "An error occurred while executing the code",
+      error: error.message,
     });
   }
 }

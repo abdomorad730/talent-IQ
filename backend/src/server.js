@@ -8,7 +8,7 @@ import cors from 'cors'
 import { protectRoute } from './middleware/ProtectRoute.js'
 import chatRouter from './routes/chatRouter.js'
 import sessionRouter from './routes/sessionRouter.js'
-//import { executeCode } from './controllers/piston.controller.js'
+import handler from './controllers/piston.controller.js'
 
 const app = express()
 
@@ -19,7 +19,7 @@ app.use(clerkMiddleware())
 app.get('/', (req, res) => {
     res.json({ status: 'ok' })
 })
-//app.post('/run', executeCode)
+app.post('/run', handler)
 
 app.use('/api/inngest',serve({client:inngest, functions}))
 app.use('/api/chat', protectRoute, chatRouter)    

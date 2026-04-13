@@ -15,7 +15,7 @@ const LANGUAGE_VERSIONS = {
  */
 export async function executeCode(language, code) {
   try {
-   const res = await fetch("http://localhost:5000/run", {
+   const res = await fetch("http://localhost:3000/run", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
