@@ -8,7 +8,7 @@ import cors from 'cors'
 import { protectRoute } from './middleware/ProtectRoute.js'
 import chatRouter from './routes/chatRouter.js'
 import sessionRouter from './routes/sessionRouter.js'
-import { executeCode } from './controllers/piston.controller.js'
+//import { executeCode } from './controllers/piston.controller.js'
 
 const app = express()
 
