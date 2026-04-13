@@ -16,10 +16,11 @@ const port = ENV.PORT
 app.use(express.json())
 app.use(cors({origin:ENV.CLIENT_URL,credentials:true}))
 app.use(clerkMiddleware())
-app.post('/run', executeCode)
 app.get('/', (req, res) => {
     res.json({ status: 'ok' })
 })
+//app.post('/run', executeCode)
+
 app.use('/api/inngest',serve({client:inngest, functions}))
 app.use('/api/chat', protectRoute, chatRouter)    
 app.use('/api/session', sessionRouter)    
