@@ -30,6 +30,7 @@ app.use('/api/session', sessionRouter)
 const startServer = async () => {
     try {
         await connectDB()
+        
         app.listen(port, () => console.log(`Example app listening on port ${port}!`))
     } catch (error) {
         console.error('Error starting the server',error)
