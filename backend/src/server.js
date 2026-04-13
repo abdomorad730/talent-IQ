@@ -8,6 +8,7 @@ import cors from 'cors'
 import { protectRoute } from './middleware/ProtectRoute.js'
 import chatRouter from './routes/chatRouter.js'
 import sessionRouter from './routes/sessionRouter.js'
+import { executeCode } from './controllers/piston.controller.js'
 
 const app = express()
 
@@ -15,7 +16,7 @@ const port = ENV.PORT
 app.use(express.json())
 app.use(cors({origin:ENV.CLIENT_URL,credentials:true}))
 app.use(clerkMiddleware())
-
+app.post('/run', executeCode)
 app.get('/', (req, res) => {
     res.json({ status: 'ok' })
 })

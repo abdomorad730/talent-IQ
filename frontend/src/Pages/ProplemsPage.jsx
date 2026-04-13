@@ -25,7 +25,7 @@ function ProplemsPage() {
         {/* PROBLEMS GRID */}
         <div className="space-y-7">
           {problems.map((problem) => (
-            <Link key={problem.id} className=" card bg-base-300  hover:scale-[1.01] transition-transform duration-200">
+            <Link key={problem.id} to={`/problems/${problem.id}`} className=" card bg-base-300  hover:scale-[1.01] transition-transform duration-200">
               <div className="card-body">
                 <div className="flex items-center gap-4 justify-between">
                   {/*left side */}
